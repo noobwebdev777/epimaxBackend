@@ -1,3 +1,6 @@
+require('dotenv').config()
+
+
 var mysql      = require('mysql');
 var connection = mysql.createConnection({
   host     : 'localhost',
@@ -7,6 +10,8 @@ var connection = mysql.createConnection({
 });
 
 connection.connect();
+
+connection.query()
 
 module.exports = database
 

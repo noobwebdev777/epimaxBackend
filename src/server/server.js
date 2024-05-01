@@ -1,29 +1,17 @@
 const express = require('express');
+const app = express();
+
 require('dotenv').config();
 
 // const database = require('../database/database')
 
 const auth = require('../middleware/auth');
 
-const app = express();
+const jwt = require('jsonwebtoken');
 
 const port = process.env.PORT || 3000;
 
-// app.use(auth);
-
 app.use(express.json());
-
-//api endpoint to register a user sending username and password in a json format
-
-// app.get('/', auth, (req, res) => {
-//   try {
-//     console.log('request recived at get-""/"');
-//     res.status(200).json('');
-//   } catch (e) {
-//     console.log(e);
-//     res.status(500).json([{ message: 'dont know what error is this' }]);
-//   }
-// });
 
 //signup api endpoint receiving json object with username and password
 //ex: {
@@ -35,23 +23,44 @@ app.post('/signup', (req, res) => {
   console.log('signup received');
 
   try {
-    const userinfo = req.body
+    const userinfo = req.body;
 
     const username = userinfo.username;
 
     const password = userinfo.password;
 
-    
-    res.status(200).json({ message: 'username and password received lol :)' });
+    if (username === '' || password === '') {
+      res.status(400).json({ message: 'username and password is required' });
+    } else {
+      const payload = { username: username, password: password };
+
+      const secretKey = process.env.SECRET_KEY;
+
+      const auth0 = jwt.sign(payload, secretKey);
+
+      console.log(auth0);
+
+      res.status(200).json({ message: 'User registered successfully', Authorization: `${auth0}` });
+    }
   } catch (error) {
-    res.status(400).json({ message: 'Username and password are required' });
+    res.status(400).json({ message: error.message });
   }
 });
 
-app.post('/login', auth ,(req, res) => {
-  
+app.post('/tasks', auth, (req, res) => {
+  console.log('tasks tab')
+});
+
+app.get('/tasks', auth, (req, res) => {
+
 })
 
+app.get('tasks/:id', auth, () => {
+
+})
+
+
+//server running at port given in .env file (default is 3000)
 app.listen(port, () => {
   console.log(`server started at port : ${port}`);
 });
