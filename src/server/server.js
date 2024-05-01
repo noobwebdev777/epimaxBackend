@@ -48,6 +48,10 @@ app.post('/signup', (req, res) => {
   }
 });
 
+app.post('/login', auth ,(req, res) => {
+  
+})
+
 app.listen(port, () => {
   console.log(`server started at port : ${port}`);
 });
