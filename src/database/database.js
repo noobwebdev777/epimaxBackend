@@ -1,17 +1,13 @@
-require('dotenv').config()
+require('dotenv').config();
 
+const sqlite3 = require('sqlite3').verbose();
 
-var mysql      = require('mysql');
-var connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'me',
-  password : 'secret',
-  database : 'my_db'
+const db = new sqlite3.Database('database.db', (err) => {
+  if (err) {
+    console.error('Error opening database:', err.message);
+  } else {
+    console.log('Connected to the database.');
+  }
 });
 
-connection.connect();
-
-connection.query()
-
-module.exports = database
-
+module.exports = db;

@@ -3,7 +3,7 @@ const app = express();
 
 require('dotenv').config();
 
-// const database = require('../database/database')
+const database = require('../database/database')
 
 const auth = require('../middleware/auth');
 
@@ -38,9 +38,12 @@ app.post('/signup', (req, res) => {
 
       const auth0 = jwt.sign(payload, secretKey);
 
-      console.log(auth0);
+      db.run(`inset`)
 
-      res.status(200).json({ message: 'User registered successfully', Authorization: `${auth0}` });
+      res.status(200).json({
+        message: 'User registered successfully',
+        Authorization: `${auth0}`,
+      });
     }
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -48,17 +51,30 @@ app.post('/signup', (req, res) => {
 });
 
 app.post('/tasks', auth, (req, res) => {
-  console.log('tasks tab')
+  try {
+  } catch (error) {}
 });
 
 app.get('/tasks', auth, (req, res) => {
+  try {
+  } catch (error) {}
+});
 
-})
+app.get('tasks/:id', auth, (req, res) => {
+  const id = req.params()
+  try {
+  } catch (error) {}
+});
 
-app.get('tasks/:id', auth, () => {
+app.put('/tasks/:id', auth, (req, res) => {
+  try {
+  } catch (error) {}
+});
 
-})
-
+app.delete('/tasks/:id', auth, (req, res) => {
+  try {
+  } catch (error) {}
+});
 
 //server running at port given in .env file (default is 3000)
 app.listen(port, () => {
